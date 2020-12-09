@@ -3,6 +3,8 @@ import { Avatar, IconButton } from '@material-ui/core';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import AttachFileOutlinedIcon from '@material-ui/icons/AttachFileOutlined';
 import MoreVertOutlinedIcon from '@material-ui/icons/MoreVertOutlined';
+import SentimentSatisfiedOutlinedIcon from '@material-ui/icons/SentimentSatisfiedOutlined';
+import MicOutlinedIcon from '@material-ui/icons/MicOutlined';
 import './Chat.css';
 const Chat = () => {
     return (
@@ -44,6 +46,14 @@ const Chat = () => {
                         {new Date().toUTCString()}
                     </span>
                 </p>
+            </div>
+            <div className="chat__footer">
+                <SentimentSatisfiedOutlinedIcon />
+                <form>
+                    <input type="text" placeholder="Type message..." />
+                    <button type="submit">Sen Message</button>
+                </form>
+                <MicOutlinedIcon />
             </div>
         </div>
     )
