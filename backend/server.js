@@ -1,6 +1,7 @@
 // importing
 import express from 'express';
 import mongoose from 'mongoose'
+import Messages from './dbMessages.js'
 // app config
 const app =  express();
 const port = process.env.PORT || 9000;
@@ -19,6 +20,7 @@ const db = mongoose.connection;
 db.once('open', ()=>{
     console.log('DB connected');
 })
+
 ///??????
 
 // api routes
