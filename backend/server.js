@@ -1,11 +1,19 @@
 // importing
 import express from 'express';
 import mongoose from 'mongoose'
+import Pusher from 'pusher'
 import Messages from './dbMessages.js'
 // app config
 const app =  express();
 const port = process.env.PORT || 9000;
 
+const pusher = new Pusher({
+    appId: "1121336",
+    key: "9e0c40915bb55ba90506",
+    secret: "e0823364852571b4715e",
+    cluster: "ap2",
+    useTLS: true
+  });
 
 // middleware
 app.use(express.json())
@@ -20,6 +28,25 @@ mongoose.connect(connection_url,{
 const db = mongoose.connection;
 db.once('open', ()=>{
     console.log('DB connected');
+
+    const msgCollection = db.collection('messagecontents')
+    const changeStream = msgCollection.watch()
+
+    changeStream.on('change', change=>{
+        console.log('A change occur', change)
+
+        if(change.operationType === 'insert'){
+            const messageDetails = change.fullDocument;
+            pusher.trigger('messages', 'inserted', {
+                name : messageDetails.name,
+                message : messageDetails.message,
+                timestamp : messageDetails.message.timestamp,
+                recieved : messageDetails.message.recieved,
+            })
+        }else{
+            console.log('Error triggering pusher');
+        }
+    })
 })
 
 ///??????
