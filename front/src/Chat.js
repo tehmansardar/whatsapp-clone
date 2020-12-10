@@ -6,7 +6,7 @@ import MoreVertOutlinedIcon from '@material-ui/icons/MoreVertOutlined';
 import SentimentSatisfiedOutlinedIcon from '@material-ui/icons/SentimentSatisfiedOutlined';
 import MicOutlinedIcon from '@material-ui/icons/MicOutlined';
 import './Chat.css';
-const Chat = () => {
+const Chat = ({messages}) => {
     return (
         <div className="chat">
             <div className="chat__header">
@@ -28,24 +28,17 @@ const Chat = () => {
                 </div>
             </div>
             <div className="chat__body">
-                <p className="chat_message chat_reciever">
-                    <span className="chat_name">
-                        Temi
-                    </span>
-                    Hey, there how's going on your side, tell something.
-                    <span className="chat_timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className="chat_message">
-                    <span className="chat_name">
-                        Sanna
-                    </span>
-                    Hey, there how's going on your side, tell something.
-                    <span className="chat_timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
+                { messages.map(message=>(
+                    <p key={message._id} className={`chat_message ${message.recieved && "chat_reciever"}`}>
+                        <span className="chat_name">
+                            {message.name}
+                        </span>
+                        {message.message}
+                        <span className="chat_timestamp">
+                        {message.timestamp}
+                        </span>
+                    </p>
+                )) }
             </div>
             <div className="chat__footer">
                 <SentimentSatisfiedOutlinedIcon />
