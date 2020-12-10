@@ -2,9 +2,11 @@
 import express from 'express';
 import mongoose from 'mongoose'
 import Pusher from 'pusher'
+import cors from 'cors'
 import Messages from './dbMessages.js'
 // app config
 const app =  express();
+app.use(cors())
 const port = process.env.PORT || 9000;
 
 const pusher = new Pusher({
@@ -53,6 +55,16 @@ db.once('open', ()=>{
 
 // api routes
 app.get('/', (req,res)=> res.status(200).send('Hello world'))
+
+app.get('/messages/sync', (req,res)=>{
+    Messages.find((err,data)=>{
+        if(err){
+            res.status(500).send(err)
+        }else{
+            res.status(200).send(data)
+        }
+    })
+})
 
 app.post('/messages/new', (req,res)=>{
     const dbMessages = req.body;
