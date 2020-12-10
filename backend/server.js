@@ -1,5 +1,6 @@
 // importing
 import express from 'express';
+import mongoose from 'mongoose'
 // app config
 const app =  express();
 const port = process.env.PORT || 9000;
@@ -8,7 +9,16 @@ const port = process.env.PORT || 9000;
 // middleware
 
 // DBconfig
-
+const connection_url = 'mongodb+srv://admin:VTBfuQ5lkLrUSumM@cluster0.nhuw8.mongodb.net/whatsappdb?retryWrites=true&w=majority'
+mongoose.connect(connection_url,{
+    useCreateIndex:true,
+    useNewUrlParser:true,
+    useUnifiedTopology:true
+})
+const db = mongoose.connection;
+db.once('open', ()=>{
+    console.log('DB connected');
+})
 ///??????
 
 // api routes
