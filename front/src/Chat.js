@@ -1,12 +1,29 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Avatar, IconButton } from '@material-ui/core';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import AttachFileOutlinedIcon from '@material-ui/icons/AttachFileOutlined';
 import MoreVertOutlinedIcon from '@material-ui/icons/MoreVertOutlined';
 import SentimentSatisfiedOutlinedIcon from '@material-ui/icons/SentimentSatisfiedOutlined';
 import MicOutlinedIcon from '@material-ui/icons/MicOutlined';
+import axios from './axios'
 import './Chat.css';
 const Chat = ({messages}) => {
+
+    const [input, setInput] = useState('')
+
+    const sendMessage = e=>{
+        e.preventDefault()
+        if(input){
+        axios.post('/messages/new', {
+            message: input,
+            name: 'Temi',
+            timestamp: new Date().toUTCString(),
+            recieved: true
+        })
+        setInput('')
+        }
+    }
+
     return (
         <div className="chat">
             <div className="chat__header">
@@ -42,8 +59,8 @@ const Chat = ({messages}) => {
             </div>
             <div className="chat__footer">
                 <SentimentSatisfiedOutlinedIcon />
-                <form>
-                    <input type="text" placeholder="Type message..." />
+                <form onSubmit={sendMessage}>
+                    <input value={input} onChange={ e => setInput(e.target.value)} type="text" placeholder="Type message..." />
                     <button type="submit">Sen Message</button>
                 </form>
                 <MicOutlinedIcon />

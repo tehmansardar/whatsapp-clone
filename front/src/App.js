@@ -23,8 +23,12 @@ function App() {
         setMessages([...messages, newMessage])
     });
 
+    return ()=>{
+      channel.unbind_all()
+      channel.unsubscribe()
+    }
   }, [messages])
-  console.log(messages);
+
   return (
     <div className="App">
       <div className="app__body">
